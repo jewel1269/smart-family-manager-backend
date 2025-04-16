@@ -4,6 +4,9 @@ import dotenv from "dotenv";
 import ConnectBD from "./src/config/db.js";
 import errorHandler from "./src/middleware/errorHandler.js";
 import useRoute from "./src/routes/user.route.js";
+import addIncome from "./src/routes/income.route.js";
+import addCost from "./src/routes/cost.route.js";
+import addGrocery from "./src/routes/grocery.route.js";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,6 +22,9 @@ ConnectBD(uri);
 //all routes
 
 app.use("/api/v1/user", useRoute);
+app.use("/api/v1/income", addIncome);
+app.use("/api/v1/cost", addCost);
+app.use("/api/v1/grocery", addGrocery);
 
 //global error handler
 app.use(errorHandler);
