@@ -82,3 +82,28 @@ export const Login = async (req, res, next) => {
     next(err);
   }
 };
+
+export const SingleUser = async (req, res, next) => {
+  try {
+    const { email } = req.params;
+
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email parameter is required.' });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found.' });
+    }
+
+    res.status(200).json({ 
+      success: true,
+      message:"User Find Successfully", 
+      data: user
+     });
+  } catch (err) {
+    next(err)
+    res.status(500).json({ success: false, message: 'Server error. Please try again later.' });
+  }
+};
