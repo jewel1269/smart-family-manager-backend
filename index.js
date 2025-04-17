@@ -8,6 +8,7 @@ import addIncome from "./src/routes/income.route.js";
 import addCost from "./src/routes/cost.route.js";
 import addGrocery from "./src/routes/grocery.route.js";
 import useSemester from "./src/routes/semester.route.js";
+import useSaving from "./src/routes/saving.route.js";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,6 +27,7 @@ app.use("/api/v1/user", useRoute);
 app.use("/api/v1/income", addIncome);
 app.use("/api/v1/cost", addCost);
 app.use("/api/v1/grocery", addGrocery);
+app.use("/api/v1/saving", useSaving);
 
 //FOR ADMIN
 app.use("/api/v1/semester", useSemester);

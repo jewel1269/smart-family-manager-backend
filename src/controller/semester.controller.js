@@ -1,4 +1,5 @@
 import Semester from "../models/semester.model.js";
+import { ObjectId } from "mongodb";
 
 export const CreateSemester = async (req, res, next) => {
   try {
@@ -51,6 +52,40 @@ export const getResult = async (req, res) => {
     res.status(500).json({
       message: "ফলাফল বের করতে গিয়ে একটি ত্রুটি ঘটেছে।",
       error: error.message,
+    });
+  }
+};
+
+
+export const deleteSemester= async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+
+    if (!id) {
+      return res.status(400).json({ success: false, message: "আইডি প্রয়োজন!" });
+    }
+
+    const deleted = await Semester.findOneAndDelete({ _id: new ObjectId(id) });
+    console.log(deleted);
+
+    if (!deleted) {
+      return res.status(404).json({
+        success: false,
+        message: "ডেটা পাওয়া যায়নি বা ইতিমধ্যে ডিলিট হয়েছে!",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "ডেটা সফলভাবে ডিলিট হয়েছে!",
+    });
+  } catch (err) {
+    next(err)
+    console.error("deleteSemester Error:", err.message);
+    res.status(500).json({
+      success: false,
+      message: "সার্ভার ত্রুটি!",
     });
   }
 };
